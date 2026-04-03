@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THIS OR THAT — Pick Your Side</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="Eitherly.css">
+</head>
+<body>
+
+<!-- =========================================
+     SCREEN: HOME
+========================================= -->
+<div id="screen-home" class="screen pb-nav">
+  <div class="header">
+    <div class="logo" onclick="navigate('home')">THIS·OR·THAT</div>
+    <div class="header-actions">
+      <button class="icon-btn" onclick="navigate('favorites')" title="Favorites">⭐</button>
+    </div>
+  </div>
+
+  <div class="home-hero">
+    <div class="eyebrow">⚡ PICK YOUR SIDE</div>
+    <h1>
+      <span>THIS</span>
+      <span class="or-word">OR</span>
+      <span>THAT</span>
+    </h1>
+    <p>Choose between two options. See where you stand. Spark the debate.</p>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stat-number" id="stat-answered">0</div>
+      <div class="stat-label">ANSWERED</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" id="stat-streak">0</div>
+      <div class="stat-label">BEST STREAK</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" id="stat-favs">0</div>
+      <div class="stat-label">SAVED</div>
+    </div>
+  </div>
+
+  <div class="section-label">CHOOSE A CATEGORY</div>
+  <div class="category-grid">
+    <div class="category-card cat-all active" data-cat="all" onclick="selectCategory(this)">
+      <span class="cat-emoji">🔥</span>
+      <span class="cat-name">All</span>
+      <span class="cat-count" id="count-all">100+ picks</span>
+    </div>
+    <div class="category-card cat-entertainment" data-cat="entertainment" onclick="selectCategory(this)">
+      <span class="cat-emoji">🎬</span>
+      <span class="cat-name">Entertainment</span>
+      <span class="cat-count" id="count-entertainment">— picks</span>
+    </div>
+    <div class="category-card cat-lifestyle" data-cat="lifestyle" onclick="selectCategory(this)">
+      <span class="cat-emoji">💎</span>
+      <span class="cat-name">Lifestyle</span>
+      <span class="cat-count" id="count-lifestyle">— picks</span>
+    </div>
+    <div class="category-card cat-deep" data-cat="deep" onclick="selectCategory(this)">
+      <span class="cat-emoji">🧠</span>
+      <span class="cat-name">Deep Thoughts</span>
+      <span class="cat-count" id="count-deep">— picks</span>
+    </div>
+    <div class="category-card cat-fun" data-cat="fun" onclick="selectCategory(this)">
+      <span class="cat-emoji">😂</span>
+      <span class="cat-name">Fun &amp; Random</span>
+      <span class="cat-count" id="count-fun">— picks</span>
+    </div>
+    <div class="category-card cat-party" data-cat="party" onclick="selectCategory(this)">
+      <span class="cat-emoji">🎉</span>
+      <span class="cat-name">Party Mode</span>
+      <span class="cat-count" id="count-party">— picks</span>
+    </div>
+  </div>
+
+  <button class="play-btn" onclick="startGame()">▶ START PICKING</button>
+  <button class="secondary-btn" onclick="navigate('party')">🎉 PARTY MODE — PASS THE PHONE</button>
+</div>
+
+<!-- =========================================
+     SCREEN: GAME
+========================================= -->
+<div id="screen-game" class="screen pb-nav">
+  <div class="game-header">
+    <button class="back-btn" onclick="navigate('home')">←</button>
+    <div class="progress-wrap">
+      <div class="progress-meta">
+        <span id="progress-text">Question 1</span>
+        <span id="category-label-top">All</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+      </div>
+    </div>
+    <div class="streak-badge" id="streak-badge">🔥 <span id="streak-count">0</span></div>
+  </div>
+
+  <div class="question-category" id="question-category">
+    <span id="cat-emoji-display">🔥</span>
+    <span id="cat-name-display">All</span>
+  </div>
+
+  <div class="game-question" id="game-question">WHICH WOULD YOU CHOOSE?</div>
+
+  <div class="choices-container" id="choices-container">
+    <!-- Choice A -->
+    <div class="choice-card choice-a" id="choice-a-card" onclick="makeChoice('a')">
+      <span class="choice-emoji" id="choice-a-emoji">🏆</span>
+      <span class="choice-label" id="choice-a-text">OPTION A</span>
+      <div class="pct-bar-wrap" id="pct-a-wrap">
+        <div class="pct-label">
+          <span>YOUR PICK</span>
+          <span id="pct-a-val">64%</span>
+        </div>
+        <div class="pct-bar">
+          <div class="pct-fill" id="pct-a-fill" style="width:0%"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="or-divider">OR</div>
+
+    <!-- Choice B -->
+    <div class="choice-card choice-b" id="choice-b-card" onclick="makeChoice('b')">
+      <span class="choice-emoji" id="choice-b-emoji">💫</span>
+      <span class="choice-label" id="choice-b-text">OPTION B</span>
+      <div class="pct-bar-wrap" id="pct-b-wrap">
+        <div class="pct-label">
+          <span>THEIR PICK</span>
+          <span id="pct-b-val">36%</span>
+        </div>
+        <div class="pct-bar">
+          <div class="pct-fill" id="pct-b-fill" style="width:0%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="post-choice-actions" id="post-choice-actions">
+    <button class="fav-btn" id="fav-btn" onclick="toggleFavorite()" title="Save">⭐</button>
+    <button class="next-btn" onclick="nextQuestion()">NEXT →</button>
+    <button class="share-btn-small" onclick="openShareModal()" title="Share">↗</button>
+  </div>
+</div>
+
+<!-- =========================================
+     SCREEN: RESULTS
+========================================= -->
+<div id="screen-results" class="screen pb-nav">
+  <div style="padding-top: 60px; width:100%; text-align:center; display:flex; flex-direction:column; align-items:center; gap:20px;">
+    <div class="results-crown">🏆</div>
+    <div>
+      <div class="results-title">ROUND<br>COMPLETE!</div>
+      <div class="results-subtitle">You're on a roll. Here's your summary.</div>
+    </div>
+
+    <div class="results-card" style="width:100%">
+      <h3>YOUR STATS</h3>
+      <div class="stat-row">
+        <span>Questions Answered</span>
+        <span class="stat-row-val" id="res-total">0</span>
+      </div>
+      <div class="stat-row">
+        <span>Best Streak</span>
+        <span class="stat-row-val" id="res-streak">0</span>
+      </div>
+      <div class="stat-row">
+        <span>Most Chosen Side</span>
+        <span class="stat-row-val" id="res-side">A</span>
+      </div>
+      <div class="stat-row">
+        <span>Session Favorites</span>
+        <span class="stat-row-val" id="res-favs">0</span>
+      </div>
+    </div>
+
+    <div class="results-actions">
+      <button class="play-btn" onclick="startGame()">▶ PLAY AGAIN</button>
+      <button class="secondary-btn" onclick="openShareModal()">↗ SHARE MY RESULTS</button>
+      <button class="secondary-btn" onclick="navigate('home')">← BACK HOME</button>
+    </div>
+  </div>
+</div>
+
+<!-- =========================================
+     SCREEN: PARTY
+========================================= -->
+<div id="screen-party" class="screen pb-nav">
+  <div class="game-header">
+    <button class="back-btn" onclick="navigate('home')">←</button>
+    <div style="flex:1; font-family:'Bebas Neue',sans-serif; font-size:20px; letter-spacing:1px; color:#c87aff;">PARTY MODE</div>
+  </div>
+
+  <!-- Setup Phase -->
+  <div id="party-setup">
+    <div class="party-header-art">
+      <h2>PASS THE PHONE</h2>
+      <p>Take turns picking. Explain your choices. Debate everything.</p>
+    </div>
+
+    <div class="player-setup">
+      <h3>👥 Add Players (min. 2)</h3>
+      <div class="player-list" id="player-list"></div>
+      <div class="add-player-row">
+        <input type="text" class="player-input" id="player-input" placeholder="Enter player name..." maxlength="20">
+        <button class="add-btn" onclick="addPlayer()">ADD</button>
+      </div>
+    </div>
+
+    <div id="party-category-section">
+      <div class="section-label" style="margin-top:16px;">QUESTION TYPE</div>
+      <div class="category-grid" style="grid-template-columns:1fr 1fr 1fr;">
+        <div class="category-card cat-all active" data-cat="all" onclick="selectPartyCategory(this)" style="padding:14px 10px;">
+          <span class="cat-emoji" style="font-size:22px">🔥</span>
+          <span class="cat-name" style="font-size:12px">All</span>
+        </div>
+        <div class="category-card cat-fun" data-cat="fun" onclick="selectPartyCategory(this)" style="padding:14px 10px;">
+          <span class="cat-emoji" style="font-size:22px">😂</span>
+          <span class="cat-name" style="font-size:12px">Fun</span>
+        </div>
+        <div class="category-card cat-party" data-cat="party" onclick="selectPartyCategory(this)" style="padding:14px 10px;">
+          <span class="cat-emoji" style="font-size:22px">🎉</span>
+          <span class="cat-name" style="font-size:12px">Hot Takes</span>
+        </div>
+        <div class="category-card cat-deep" data-cat="deep" onclick="selectPartyCategory(this)" style="padding:14px 10px;">
+          <span class="cat-emoji" style="font-size:22px">🧠</span>
+          <span class="cat-name" style="font-size:12px">Deep</span>
+        </div>
+        <div class="category-card cat-entertainment" data-cat="entertainment" onclick="selectPartyCategory(this)" style="padding:14px 10px;">
+          <span class="cat-emoji" style="font-size:22px">🎬</span>
+          <span class="cat-name" style="font-size:12px">Pop</span>
+        </div>
+        <div class="category-card cat-lifestyle" data-cat="lifestyle" onclick="selectPartyCategory(this)" style="padding:14px 10px;">
+          <span class="cat-emoji" style="font-size:22px">💎</span>
+          <span class="cat-name" style="font-size:12px">Life</span>
+        </div>
+      </div>
+    </div>
+
+    <button class="play-btn" style="background:linear-gradient(135deg,#7b2aff,#3c8aff);" onclick="startPartyGame()">🎉 START PARTY</button>
+  </div>
+
+  <!-- Party Game Phase -->
+  <div id="party-game" class="hidden" style="display:none; flex-direction:column; gap:14px;">
+    <div class="party-turn-indicator">
+      <div class="turn-avatar" id="party-avatar">😎</div>
+      <div class="turn-info">
+        <h4 id="party-player-name">Player 1</h4>
+        <p>It's your turn — pick one!</p>
+      </div>
+      <div class="streak-badge">Round <span id="party-round">1</span></div>
+    </div>
+
+    <div class="game-question" id="party-question" style="margin-bottom:8px">WHICH WOULD YOU CHOOSE?</div>
+
+    <div class="choices-container party-mode-game" id="party-choices-container" style="gap:10px; margin-bottom:0;">
+      <div class="choice-card choice-a" id="party-choice-a" onclick="makePartyChoice('a')" style="min-height:110px;">
+        <span class="choice-emoji" id="party-emoji-a">🏆</span>
+        <span class="choice-label" id="party-label-a">OPTION A</span>
+        <div class="pct-bar-wrap" id="party-pct-a">
+          <div class="pct-label" style="color:#c87aff"><span>PICKED</span><span id="party-pct-a-val">0%</span></div>
+          <div class="pct-bar"><div class="pct-fill" id="party-fill-a" style="width:0%;background:#c87aff"></div></div>
+        </div>
+      </div>
+      <div class="or-divider">OR</div>
+      <div class="choice-card choice-b" id="party-choice-b" onclick="makePartyChoice('b')" style="min-height:110px;">
+        <span class="choice-emoji" id="party-emoji-b">💫</span>
+        <span class="choice-label" id="party-label-b">OPTION B</span>
+        <div class="pct-bar-wrap" id="party-pct-b">
+          <div class="pct-label"><span>PICKED</span><span id="party-pct-b-val">0%</span></div>
+          <div class="pct-bar"><div class="pct-fill" id="party-fill-b" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="explain-prompt" id="explain-prompt">
+      <span style="font-size:20px">💬</span>
+      <p id="explain-text">Explain your choice to the group before passing the phone!</p>
+    </div>
+
+    <div id="party-post-actions" class="hidden" style="display:none;">
+      <button class="next-btn" style="width:100%;background:linear-gradient(135deg,#7b2aff,#3c8aff);" onclick="nextPartyTurn()">PASS TO NEXT PLAYER →</button>
+    </div>
+
+    <!-- Scoreboard -->
+    <div class="scoreboard">
+      <div class="scoreboard-header">⚡ SCOREBOARD</div>
+      <div id="scoreboard-rows"></div>
+    </div>
+
+    <button class="secondary-btn" onclick="endPartyGame()">END GAME</button>
+  </div>
+</div>
+
+<!-- =========================================
+     SCREEN: FAVORITES
+========================================= -->
+<div id="screen-favorites" class="screen pb-nav">
+  <div class="header">
+    <div class="logo">SAVED</div>
+    <button class="icon-btn" id="clear-favs-btn" onclick="clearFavorites()" title="Clear all">🗑</button>
+  </div>
+  <div id="fav-content"></div>
+</div>
+
+<!-- =========================================
+     BOTTOM NAV
+========================================= -->
+<nav class="bottom-nav">
+  <button class="nav-item active" data-nav="home" onclick="navigate('home')">
+    <span class="nav-icon">🏠</span>
+    Home
+  </button>
+  <button class="nav-item" data-nav="game" onclick="startGame()">
+    <span class="nav-icon">⚡</span>
+    Play
+  </button>
+  <button class="nav-item" data-nav="party" onclick="navigate('party')">
+    <span class="nav-icon">🎉</span>
+    Party
+  </button>
+  <button class="nav-item" data-nav="favorites" onclick="navigate('favorites')">
+    <span class="nav-icon">⭐</span>
+    Saved
+  </button>
+</nav>
+
+<!-- =========================================
+     SHARE MODAL
+========================================= -->
+<div class="modal-overlay" id="share-modal" onclick="closeShareModal(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">SHARE YOUR PICK 🔥</div>
+    <div id="share-preview" style="background:var(--surface2);border-radius:14px;padding:16px;margin-bottom:16px;font-size:14px;color:var(--text-muted);line-height:1.6;"></div>
+    <button class="share-option" onclick="copyToClipboard()">
+      <div class="share-icon" style="background:rgba(255,204,0,0.1);">📋</div>
+      <div>
+        <div class="share-label">Copy to Clipboard</div>
+        <div class="share-sub">Paste anywhere you want</div>
+      </div>
+    </button>
+    <button class="share-option" onclick="shareNative()">
+      <div class="share-icon" style="background:rgba(60,138,255,0.1);">↗</div>
+      <div>
+        <div class="share-label">Share via...</div>
+        <div class="share-sub">WhatsApp, Instagram, Twitter...</div>
+      </div>
+    </button>
+    <button class="share-option" onclick="closeShareModal()">
+      <div class="share-icon" style="background:rgba(255,255,255,0.05);">✕</div>
+      <div>
+        <div class="share-label">Cancel</div>
+        <div class="share-sub"></div>
+      </div>
+    </button>
+  </div>
+</div>
+
+<!-- Party Explain Modal -->
+<div class="modal-overlay" id="party-explain-modal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="explain-modal-content">
+      <div class="explain-q" id="em-question">WHICH WOULD YOU CHOOSE?</div>
+      <div class="explain-choice" id="em-choice">OPTION A</div>
+      <p>Tell the group WHY you chose this.<br>No skipping. No hiding. 😤</p>
+      <button class="play-btn" style="font-size:18px;" onclick="closeExplainModal()">DONE EXPLAINING</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+<script src="Eitherly.js"></script>
+</body>
+</html>
